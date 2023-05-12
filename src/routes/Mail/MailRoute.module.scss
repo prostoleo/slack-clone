@@ -1,0 +1,86 @@
+.mail {
+	flex: 1;
+
+	display: grid;
+	grid-template-rows: auto 1fr;
+
+	background-color: whitesmoke;
+
+	overflow: hidden;
+
+	.mail__tools {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		background-color: white;
+
+		.mail__toolsLeft {
+			display: flex;
+		}
+		.mail__toolsRight {
+		}
+	}
+
+	.mail__body {
+		display: flex;
+		flex-direction: column;
+
+		margin: 2rem;
+		// margin-top: 0;
+		padding: 1.25rem;
+		// height: 100%;
+		// height: calc(100% - 3 * var(--m));
+
+		background-color: white;
+
+		box-shadow: 0px 5px 7px 0px rgba(0, 0, 0, 0.24);
+
+		overflow-y: auto;
+
+		.mail__bodyHeader {
+			display: flex;
+			align-items: center;
+
+			padding-bottom: 1rem;
+
+			border-bottom: 1px solid whitesmoke;
+
+			position: relative;
+
+			& > p {
+				margin-left: 1rem;
+			}
+
+			.mail__bodyHeaderSubject {
+				font-size: 1.5rem;
+				font-weight: 400;
+				margin-right: 1.25rem;
+			}
+
+			.mail__bodyHeaderIcon {
+				color: #e8ab02;
+			}
+			.mail__bodyHeaderTitle {
+			}
+
+			.mail__bodyHeaderTime {
+				margin-left: auto;
+
+				font-size: 0.75rem;
+
+				color: gray;
+			}
+		}
+
+		.mail__bodyMessage {
+			& > p {
+				padding: 0.75rem;
+				padding-left: 0;
+				margin-right: 1.25rem;
+
+				overflow-wrap: break-word;
+			}
+		}
+	}
+}
