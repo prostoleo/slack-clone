@@ -1,15 +1,15 @@
-import type { FC } from 'react';
+import { selectSelectedChannel } from '@/store/channels/channelsSlice';
+import { useSelector } from 'react-redux';
 
-import styles from './HomeRoute.module.scss';
-
-interface HomeRouteProps {}
-
-const HomeRoute: FC<HomeRouteProps> = ({}) => {
-	// const { isLoading, error, data } = useGetMails();
+const HomeRoute = () => {
+	const selectedChannel = useSelector(selectSelectedChannel);
 
 	return (
 		<>
-			<h1>hello</h1>
+			<div>
+				{/* chat */}
+				{selectedChannel ?? 'no selected channel'}
+			</div>
 		</>
 	);
 };

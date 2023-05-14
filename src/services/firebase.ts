@@ -14,130 +14,49 @@ import {
 	orderBy,
 } from 'firebase/firestore';
 
-// import admin from 'firebase/auth/';
-// const {firebaseAdmin} = await import('@libs/firebase')
-// import { getDatabase, ref, set } from 'firebase/database';
-
 import { firestore } from '@/libs/firebase';
-// import { PostProps } from '@/components/Post/Post';
-import { iSendEmail } from '@/components/Email/SendEmail/SendEmail';
-
-export interface iSendEmailExt extends iSendEmail {
-	id: string;
-	date: Timestamp;
-}
 
 // Timestamp
-
-export async function fetchEmails() {
-	const colRef = collection(firestore, 'emails');
-
+export async function addNewChannel(newChannel: string) {
 	try {
-		let emails = [] as iSendEmailExt[] | [];
+		if (!newChannel) {
+			return;
+		}
 
-		const q = query(colRef, orderBy('date', 'desc'));
-
-		const unsubscribe = await getDocs(q).then((snapshot) => {
-			// const unsubscribe = await (await getDocs(colRef)) ((snapshot) => {
-			// let data = [];
-
-			const data = snapshot.docs.forEach((doc) => {
-				emails.push({
-					...doc.data(),
-					// emailId: doc.id,
-				});
-			});
-
-			// posts
-			// return data;
+		const newDoc = await setDoc(doc(firestore, 'rooms', uuid()), {
+			name: newChannel,
 		});
-
-		/* 	const sortedData = emails
-			.slice()
-			.sort((a, b) => b.date.toMillis() - a.date.toMillis()); */
-
-		// return res;
-		return {
-			// emails: sortedData,
-			emails,
-			unsubscribe,
-		};
-		/* const d = await colRef.converter?.fromFirestore();
-		console.log('d: ', d);
-
-		const res = onSnapshot(colRef, (QuerySnapshot) => {
-			const data = [];
-
-			QuerySnapshot.forEach((doc) => {
-				data.push({
-					id: doc.id,
-					data: doc.data(),
-				});
-			});
-
-			return data;
-		});
-
-		return res; */
+		// console.log('newDoc: ', newDoc);
 	} catch (error) {
 		console.log('error: ', error);
 	}
 }
 
-export async function fetchEmailOnId(id: string) {
-	const colRef = collection(firestore, 'emails');
+type tChannelData = {
+	name: string;
+};
 
+export interface iChannel {
+	id: string;
+	data: tChannelData;
+}
+
+export async function getChannels() {
 	try {
-		// let emails = [] as iSendEmailExt[] | [];
-		let emails = [] as iSendEmailExt[] | null | [];
+		const q = query(collection(firestore, 'rooms'), orderBy('name', 'asc'));
 
-		const q = query(colRef, where('id', '==', id));
+		const querySnapshot = await getDocs(q);
 
-		const unsubscribe = await getDocs(q).then((snapshot) => {
-			console.log('snapshot: ', snapshot);
-			// snapshot.docs.forEach((doc) => {
-			snapshot.forEach((doc) => {
-				emails?.push(doc.data());
-			});
-		});
-
-		/* const querySnapshot = await getDocs(q);
+		const channels: [] | iChannel[] = [];
 		querySnapshot.forEach((doc) => {
-			console.log(doc.id, ' => ', doc.data());
-
-			emails?.push(...doc.data());
-		}); */
-
-		console.log('emails: ', emails);
-		// return res;
-		return {
-			email: emails[0],
-			unsubscribe,
-		};
-	} catch (error) {
-		console.log('error: ', error);
-	}
-}
-
-export async function addEmail(emailData: iSendEmail) {
-	try {
-		const userId = Math.floor(Math.random() * 1000);
-
-		// const email = doc(firestore, 'emails/' + userId);
-		const email = doc(firestore, 'emails/' + userId);
-
-		/* const docData = {
-			message,
-			de
-		}; */
-
-		setDoc(email, {
-			id: uuid(),
-			...emailData,
-			date: Timestamp.fromDate(new Date()),
+			channels.push({
+				id: doc.id as string,
+				data: doc.data() as tChannelData,
+			});
 		});
-	} catch (error) {
-		console.log('error: ', error);
-		throw error;
-	}
+
+		console.log('channels: ', channels);
+
+		return channels;
+	} catch (error) {}
 }

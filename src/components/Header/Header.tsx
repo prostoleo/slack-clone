@@ -1,6 +1,7 @@
 import {
 	AccessTime as AccessTimeIcon,
 	Search as SearchIcon,
+	HelpOutline as HelpOutlineIcon,
 } from '@mui/icons-material';
 import { Avatar } from '@mui/material';
 import type { FC } from 'react';
@@ -22,8 +23,12 @@ const Header: FC<HeaderProps> = ({}) => {
 				{/* header search */}
 				<HeaderSearch>
 					<SearchIcon />
+					<input type="search" placeholder="Search our slack" />
 				</HeaderSearch>
 				{/* header right */}
+				<HeaderRight>
+					<HelpOutlineIcon />
+				</HeaderRight>
 			</HeaderContainer>
 		</>
 	);
@@ -52,18 +57,55 @@ const HeaderLeft = styled.div`
 	align-items: center;
 	margin-left: 1.25rem;
 
+	color: white;
+
 	> svg {
 		margin-left: auto;
 		margin-right: 2rem;
 	}
 `;
 
-const HeaderSearch = styled.div``;
+const HeaderSearch = styled.div`
+	flex: 0.4;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	padding-inline: 5%;
+	border-radius: 0.5rem;
+
+	text-align: center;
+	color: white;
+
+	border: 1px solid gray;
+
+	input {
+		padding: 0.5em;
+		background-color: transparent;
+
+		min-width: 25vw;
+	}
+`;
 
 const HeaderAvatar = styled(Avatar)`
 	cursor: pointer;
 
 	:hover {
 		opacity: 0.8;
+	}
+`;
+
+const HeaderRight = styled.div`
+	flex: 0.3;
+
+	display: flex;
+	justify-content: flex-end;
+
+	color: white;
+
+	svg {
+		margin-left: auto;
+		margin-right: 1.25rem;
 	}
 `;

@@ -20,20 +20,6 @@ export const router = createBrowserRouter([
 
 				element: <HomeRoute />,
 			},
-
-			/* {
-				path: 'mail/:id',
-				
-				element: <MailRoute />,
-			}, */
 		],
 	},
-	/* {
-		path: '/auth',
-		element: (
-			<App>
-				<AuthRoute />
-			</App>
-		),
-	}, */
 ]);

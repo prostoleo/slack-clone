@@ -1,5 +1,8 @@
 :root {
 	--slack-color: #3f0f40;
+	--slack-color-hovered: #340c36;
+	--light-grey: hsla(0, 0%, 83%, 1);
+	--light-grey-a: hsla(0, 0%, 83%, 0.5);
 }
 
 * {
