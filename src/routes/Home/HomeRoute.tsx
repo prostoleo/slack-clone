@@ -1,3 +1,4 @@
+import Chat from '@/components/Chat/Chat';
 import { selectSelectedChannel } from '@/store/channels/channelsSlice';
 import { useSelector } from 'react-redux';
 
@@ -8,7 +9,8 @@ const HomeRoute = () => {
 		<>
 			<div>
 				{/* chat */}
-				{selectedChannel ?? 'no selected channel'}
+				{/* {selectedChannel ?? 'no selected channel'} */}
+				{!!selectedChannel && <Chat id={selectedChannel} />}
 			</div>
 		</>
 	);

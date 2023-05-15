@@ -94,8 +94,12 @@ const DefaultLayout = () => {
 export default DefaultLayout;
 
 const AppBody = styled.div`
-	display: flex;
+	/* display: flex; */
 	height: 100%;
+
+	display: grid;
+	grid-auto-flow: column;
+	grid-template-columns: auto 1fr;
 `;
 
 const Dialog = styled.dialog`

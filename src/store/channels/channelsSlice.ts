@@ -1,9 +1,9 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 import { RootState } from '..';
-import { iChannel } from '@/services/firebase';
+import { tChannelId } from '@/services/firebase';
 
 interface iUserState {
-	selectedChannel: null | iChannel;
+	selectedChannel: null | tChannelId;
 }
 
 const initialState: iUserState = {

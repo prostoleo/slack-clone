@@ -20,6 +20,7 @@ const SidebarOption: FC<SidebarOptionProps> = ({
 
 	action = null,
 }: SidebarOptionProps) => {
+	// const
 	const dispatch = useDispatch();
 
 	const dialogContext = useContext<iDialogContext>(DialogContext);
@@ -47,6 +48,8 @@ const SidebarOption: FC<SidebarOptionProps> = ({
 	}
 
 	function selectChannel(id: string) {
+		if (!id) return;
+
 		dispatch(selectChannelAction(id));
 	}
 

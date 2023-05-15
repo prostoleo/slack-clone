@@ -78,7 +78,8 @@ export default Sidebar;
 const SidebarContainer = styled.aside`
 	--px: 1rem;
 
-	width: clamp(200px, 30%, 260px);
+	/* width: clamp(200px, 30%, 260px); */
+	width: min(100%, 260px);
 
 	/* margin-top: 3rem; */
 	padding-top: 3rem;
