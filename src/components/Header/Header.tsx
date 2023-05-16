@@ -1,3 +1,4 @@
+import useAuth from '@/hooks/useAuth';
 import {
 	AccessTime as AccessTimeIcon,
 	Search as SearchIcon,
@@ -10,14 +11,21 @@ import { styled } from 'styled-components';
 interface HeaderProps {}
 
 const Header: FC<HeaderProps> = ({}) => {
+	const { logoutOfApp, user } = useAuth();
+
 	return (
 		<>
 			<HeaderContainer>
 				{/* header left */}
 				<HeaderLeft>
 					<HeaderAvatar
-					//todo add onClick
-					/>
+						//todo add onClick
+						onClick={logoutOfApp}
+					>
+						<Avatar src={user?.photoURL ?? user?.displayName[0]} />
+					</HeaderAvatar>
+
+					{/* <img src={user?.photoURL} alt="" /> */}
 					<AccessTimeIcon />
 				</HeaderLeft>
 				{/* header search */}

@@ -7,11 +7,7 @@ const HomeRoute = () => {
 
 	return (
 		<>
-			<div>
-				{/* chat */}
-				{/* {selectedChannel ?? 'no selected channel'} */}
-				{!!selectedChannel && <Chat id={selectedChannel} />}
-			</div>
+			<div>{!!selectedChannel && <Chat id={selectedChannel} />}</div>
 		</>
 	);
 };

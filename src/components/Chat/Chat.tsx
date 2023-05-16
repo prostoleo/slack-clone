@@ -23,7 +23,7 @@ const Chat: FC<ChatProps> = ({ id }) => {
 	const chatBottomRef = useRef<HTMLDivElement>(null);
 
 	//* scrollToBottom of messages
-	useScrollIntoView(chatBottomRef, [id, isLoading, isLoadingMsgs]);
+	useScrollIntoView(chatBottomRef, [id, messages, isLoading, isLoadingMsgs]);
 
 	return (
 		<>

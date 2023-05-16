@@ -15,13 +15,16 @@ import type { FC } from 'react';
 import { styled } from 'styled-components';
 import SidebarOption from './SidebarOption';
 import { useChannelsData } from '@/hooks/data/useChannelsData';
+import useAuth from '@/hooks/useAuth';
 
 interface SidebarProps {}
 
 const Sidebar: FC<SidebarProps> = ({}) => {
 	const {
-		getChannelsQuery: { data: channels, isLoading, error },
+		getChannelsQuery: { data: channels },
 	} = useChannelsData();
+
+	const { user } = useAuth();
 
 	return (
 		<>
@@ -31,7 +34,7 @@ const Sidebar: FC<SidebarProps> = ({}) => {
 						<h2>Welcome aboard</h2>
 						<h3>
 							<FiberManualRecordIcon />
-							<span>prostoleodev</span>
+							<span>{user?.displayName}</span>
 						</h3>
 					</SidebarInfo>
 					<CreateIcon />

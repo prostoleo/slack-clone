@@ -4,6 +4,7 @@ import { lazy } from 'react';
 import App from '@/app/App';
 
 const HomeRoute = lazy(() => import('@/routes/Home/HomeRoute.tsx'));
+const AuthRoute = lazy(() => import('@/routes/Auth/AuthRoute.tsx'));
 
 export const router = createBrowserRouter([
 	{
@@ -21,5 +22,13 @@ export const router = createBrowserRouter([
 				element: <HomeRoute />,
 			},
 		],
+	},
+	{
+		path: '/auth',
+		element: (
+			<App>
+				<AuthRoute />
+			</App>
+		),
 	},
 ]);

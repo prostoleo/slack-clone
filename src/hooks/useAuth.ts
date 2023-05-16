@@ -44,6 +44,8 @@ export default function useAuth() {
 					photoURL: userAuth.photoURL,
 				})
 			);
+
+			navigate('/');
 		});
 	}, []);
 
