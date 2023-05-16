@@ -4,14 +4,15 @@ import {
 	addNewChannel,
 	getChannelOnId,
 	getChannels,
-	iAddMessageToChannel,
+	iAddMessageInChannel,
+	getMessagesInChat,
 } from '@/services/firebase';
 
-const CHANNELS_KEY = 'channelsData';
-const CHANNEL_ID_KEY = 'channelIdData';
-const CHANNEL_ID_ADD_MESSAGE = 'channelIdAddMessage';
+const CHANNELS_KEY = 'channelsKey';
+const CHANNEL_ID_KEY = 'channelIdKey';
+const CHANNEL_ID_ADD_MESSAGE = 'channelIdAddMessageKey';
 
-export function useChannelsData(id: string) {
+export function useChannelsData(id = '') {
 	const queryClient = useQueryClient();
 
 	const getChannelsQuery = useQuery({
@@ -34,7 +35,7 @@ export function useChannelsData(id: string) {
 	});
 
 	const mutationAddMessageToChannel = useMutation({
-		mutationFn: (obj: iAddMessageToChannel) => addMessageToChannel(obj),
+		mutationFn: (obj: iAddMessageInChannel) => addMessageToChannel(obj),
 		onSuccess: () => {
 			queryClient.invalidateQueries({
 				queryKey: [CHANNEL_ID_KEY, CHANNEL_ID_ADD_MESSAGE],
@@ -42,10 +43,18 @@ export function useChannelsData(id: string) {
 		},
 	});
 
+	const getMessagesInChatQuery = useQuery({
+		queryKey: [CHANNEL_ID_KEY, CHANNEL_ID_ADD_MESSAGE, id!],
+		queryFn: () => getMessagesInChat(id),
+	});
+
 	return {
 		getChannelsQuery,
 		getChannelOnIdQuery,
+
 		mutationAddChannel,
 		mutationAddMessageToChannel,
+
+		getMessagesInChatQuery,
 	};
 }

@@ -1,33 +1,34 @@
 import { useChannelsData } from '@/hooks/data/useChannelsData';
-import { selectSelectedChannel } from '@/store/channels/channelsSlice';
-import { stringify } from '@/utils/formatters';
 import {
 	InfoOutlined,
 	StarBorderOutlined as StarBorderOutlinedIcon,
 } from '@mui/icons-material';
-import type { FC } from 'react';
-import { useSelector } from 'react-redux';
+import { useRef, type FC } from 'react';
 import { styled } from 'styled-components';
-// import ChatMessages from './ChatMessages';
 import ChatInput from './ChatInput';
+import Message from '@/components/Message/Message';
+import { useScrollIntoView } from '@/hooks/useScrollIntoView';
 
 interface ChatProps {
 	id: string;
 }
 
 const Chat: FC<ChatProps> = ({ id }) => {
-	// const id = useSelector(selectSelectedChannel);
-	// console.log('id: ', id);
-
 	const {
-		getChannelOnIdQuery: { data, isLoading, error },
+		getChannelOnIdQuery: { data, isLoading },
+		getMessagesInChatQuery: { data: messages, isLoading: isLoadingMsgs },
 	} = useChannelsData(id!);
+
+	const ChatContainerRef = useRef<HTMLDivElement>(null);
+	const chatBottomRef = useRef<HTMLDivElement>(null);
+
+	//* scrollToBottom of messages
+	useScrollIntoView(chatBottomRef, [id, isLoading, isLoadingMsgs]);
 
 	return (
 		<>
 			{!!data && (
-				<ChatContainer>
-					{/* <pre>{stringify(data)}</pre> */}
+				<ChatContainer id="chat-container" ref={ChatContainerRef}>
 					<Header>
 						<HeaderLeft>
 							<h4>#{data.data.name}</h4>
@@ -39,7 +40,14 @@ const Chat: FC<ChatProps> = ({ id }) => {
 							</p>
 						</HeaderRight>
 					</Header>
-					<ChatMessages>{/* list out all messages */}</ChatMessages>
+					<ChatMessages>
+						{!!messages &&
+							messages?.map((msg) => {
+								return <Message key={msg.id} {...msg} />;
+							})}
+
+						<ChatBottom id="chat-bottom" ref={chatBottomRef} />
+					</ChatMessages>
 					<ChatInput id={id} name={data.data.name} />
 				</ChatContainer>
 			)}
@@ -49,19 +57,30 @@ const Chat: FC<ChatProps> = ({ id }) => {
 export default Chat;
 
 const ChatContainer = styled.div`
+	--px: 1.25rem;
 	width: 100%;
 	height: 100%;
-	overflow-y: auto;
 
 	position: relative;
+
+	max-height: 93vh;
+	overflow-y: auto;
 `;
 
 const Header = styled.header`
+	position: sticky;
+
+	top: 0;
+
 	display: flex;
 	justify-content: space-between;
-	padding: 1.25rem;
+
+	padding: var(--px);
+
+	background-color: white;
 	border-bottom: 1px solid lightgray;
 `;
+
 const HeaderLeft = styled.div`
 	display: flex;
 	align-items: center;
@@ -84,6 +103,7 @@ const HeaderLeft = styled.div`
 		font-size: 1.125rem;
 	}
 `;
+
 const HeaderRight = styled.div`
 	> p {
 		display: flex;
@@ -98,4 +118,18 @@ const HeaderRight = styled.div`
 	}
 `;
 
-const ChatMessages = styled.div``;
+const ChatMessages = styled.div`
+	padding-inline: var(--px);
+
+	> * {
+		margin-top: 1.5rem;
+	}
+
+	> :nth-of-type(1) {
+		margin-top: 0;
+	}
+`;
+
+const ChatBottom = styled.div`
+	padding-bottom: 200px;
+`;

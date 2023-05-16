@@ -17,16 +17,14 @@ const ChatInput: FC<ChatInputProps> = ({ name, id }: ChatInputProps) => {
 	const { mutationAddMessageToChannel } = useChannelsData(id);
 
 	const formRef = useRef<HTMLFormElement>(null);
-	const {
-		handleSubmit,
-		register,
-		formState: { errors },
-	} = useForm<iFormValues>();
+	const { handleSubmit, register } = useForm<iFormValues>();
 	const onSubmit: SubmitHandler<iFormValues> = ({ message }) => {
 		mutationAddMessageToChannel.mutate({
 			message,
 			id,
 			user: 'prostoleo.dev',
+			userImage:
+				'https://images.unsplash.com/photo-1614027164847-1b28cfe1df60?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGlvbiUyMGhlYWR8ZW58MHx8MHx8&w=1000&q=80',
 		});
 
 		formRef?.current?.reset();
@@ -44,14 +42,9 @@ const ChatInput: FC<ChatInputProps> = ({ name, id }: ChatInputProps) => {
 				<input
 					{...register('message', {
 						required: 'Message is required',
-						// validate: (value) => value !== 'admin' || 'Nice try!',
 					})}
 					placeholder={`Message #${name}`}
 				/>
-				<small>{errors.message && errors.message.message}</small>
-				{/* <Button hidden type='submit'>
-        send
-      </Button> */}
 			</form>
 		</ChatInputContainer>
 	);
@@ -59,11 +52,12 @@ const ChatInput: FC<ChatInputProps> = ({ name, id }: ChatInputProps) => {
 export default ChatInput;
 
 const ChatInputContainer = styled.div`
-	position: absolute;
-	inset: auto auto 30px auto;
-	width: 100%;
+	position: fixed;
+	inset: auto 0 2rem min(260px, 30%);
 
-	z-index: 5;
+	margin-inline: auto;
+
+	z-index: 10;
 
 	--px-input: 1.25rem;
 
@@ -81,6 +75,7 @@ const ChatInputContainer = styled.div`
 
 		padding: var(--px-input);
 
+		background-color: white;
 		border: 1px solid lightgrey;
 		border-radius: 1.25rem;
 	}

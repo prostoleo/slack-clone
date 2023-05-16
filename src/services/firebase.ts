@@ -1,13 +1,7 @@
-import { v4 as uuid } from 'uuid';
-
 import {
 	getDocs,
 	collection,
-	onSnapshot,
 	addDoc,
-	getFirestore,
-	doc,
-	setDoc,
 	Timestamp,
 	query,
 	where,
@@ -24,13 +18,11 @@ export async function addNewChannel(newChannel: string) {
 			return;
 		}
 
-		/* const newDoc = await setDoc(doc(firestore, 'rooms', uuid()), {
-			name: newChannel,
-		}); */
 		const newDoc = await addDoc(collection(firestore, 'rooms'), {
 			name: newChannel,
 		});
-		// console.log('newDoc: ', newDoc);
+
+		return newDoc;
 	} catch (error) {
 		console.log('error: ', error);
 	}
@@ -61,10 +53,10 @@ export async function getChannels() {
 			});
 		});
 
-		console.log('channels: ', channels);
-
 		return channels;
-	} catch (error) {}
+	} catch (error) {
+		console.log('error: ', error);
+	}
 }
 
 export async function getChannelOnId(id: string) {
@@ -76,7 +68,6 @@ export async function getChannelOnId(id: string) {
 		);
 
 		const querySnapshot = await getDocs(q);
-		console.log('querySnapshot: ', querySnapshot);
 
 		const channels: [] | iChannel[] = [];
 		querySnapshot.forEach((doc) => {
@@ -86,45 +77,67 @@ export async function getChannelOnId(id: string) {
 			});
 		});
 
-		console.log('channels: ', channels);
-
 		return channels[0];
-	} catch (error) {}
+	} catch (error) {
+		console.log('error: ', error);
+	}
 }
 
-export interface iAddMessageToChannel {
+export interface iAddMessageInChannel {
 	id: string;
 	message: string;
 	user: string;
+	userImage: string;
 }
 
 export async function addMessageToChannel({
 	id,
 	message,
 	user,
-}: iAddMessageToChannel) {
+	userImage,
+}: iAddMessageInChannel) {
 	try {
-		/* const newDoc = await setDoc(doc(firestore, 'rooms', id, 'messages'), {
-			message,
-			timestamp: serverTimestamp(),
-		}); */
-		/* const roomDocRef = doc(collection(firestore, 'rooms', id, 'messages')); */
-		/* const newDoc = await addDoc(roomDocRef, {
-			message,
-			timestamp: serverTimestamp(),
-		}); */
-
 		const messageColRef = collection(firestore, 'rooms', id, 'messages');
 
 		const newDoc = await addDoc(messageColRef, {
 			message,
 			user,
+			userImage,
 			timestamp: serverTimestamp(),
 		});
 
-		console.log('newDoc: ', newDoc);
-
 		return newDoc;
+	} catch (error) {
+		console.log('error: ', error);
+	}
+}
+
+export interface iMessageInChannel {
+	id: string;
+	data: iAddMessageInChannel & {
+		timestamp: Timestamp;
+	};
+}
+
+export async function getMessagesInChat(id: string) {
+	try {
+		const q = query(
+			collection(firestore, 'rooms', id, 'messages'),
+			orderBy('timestamp', 'asc')
+		);
+
+		const querySnapshot = await getDocs(q);
+
+		const msgs: [] | iMessageInChannel[] = [];
+
+		querySnapshot.forEach((doc) => {
+			msgs.push({
+				id: doc.id,
+				data: doc.data(),
+			});
+		});
+
+		return msgs;
 	} catch (error) {
 		console.log('error: ', error);
 	}

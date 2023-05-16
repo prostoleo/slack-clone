@@ -33,9 +33,11 @@ const DefaultLayout = () => {
 
 	const onSubmit: SubmitHandler<FormValues> = ({ newChannelName }) => {
 		mutationAddChannel.mutate(newChannelName);
+		closeDialog();
 	};
 
 	const dialogRef = useRef<null | HTMLDialogElement>(null);
+	const dialogFormRef = useRef<null | HTMLFormElement>(null);
 
 	function openDialog() {
 		dialogRef.current?.showModal();
@@ -64,7 +66,11 @@ const DefaultLayout = () => {
 			<Dialog ref={dialogRef}>
 				<h2>Enter name of new channel</h2>
 
-				<form method="dialog" onSubmit={handleSubmit(onSubmit)}>
+				<form
+					method="dialog"
+					onSubmit={handleSubmit(onSubmit)}
+					ref={dialogFormRef}
+				>
 					<input
 						{...register('newChannelName', {
 							validate: (value) =>
@@ -100,6 +106,10 @@ const AppBody = styled.div`
 	display: grid;
 	grid-auto-flow: column;
 	grid-template-columns: auto 1fr;
+
+	> * {
+		overflow: hidden;
+	}
 `;
 
 const Dialog = styled.dialog`
