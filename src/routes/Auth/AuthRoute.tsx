@@ -1,18 +1,9 @@
 import useAuth from '@/hooks/useAuth';
 import { Button } from '@mui/material';
-// import useEnhancedEffect from '@mui/material/utils/useEnhancedEffect';
-// import { useNavigate } from 'react-router';
 import { styled } from 'styled-components';
 
 const AuthRoute = () => {
 	const { handleSignIn } = useAuth();
-	// const navigate = useNavigate();
-
-	/* useEnhancedEffect(() => {
-		if (user) {
-			navigate('/');
-		}
-	}, [user, navigate]); */
 
 	return (
 		<>

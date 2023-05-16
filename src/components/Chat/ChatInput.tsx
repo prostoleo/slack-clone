@@ -3,6 +3,8 @@ import { FC, SyntheticEvent, useRef } from 'react';
 import { styled } from 'styled-components';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useChannelsData } from '@/hooks/data/useChannelsData';
+import { useSelector } from 'react-redux';
+import { selectUser } from '@/store/user/userSlice';
 
 interface ChatInputProps {
 	name: string;
@@ -16,15 +18,16 @@ interface iFormValues {
 const ChatInput: FC<ChatInputProps> = ({ name, id }: ChatInputProps) => {
 	const { mutationAddMessageToChannel } = useChannelsData(id);
 
+	const user = useSelector(selectUser);
+
 	const formRef = useRef<HTMLFormElement>(null);
 	const { handleSubmit, register } = useForm<iFormValues>();
 	const onSubmit: SubmitHandler<iFormValues> = ({ message }) => {
 		mutationAddMessageToChannel.mutate({
 			message,
 			id,
-			user: 'prostoleo.dev',
-			userImage:
-				'https://images.unsplash.com/photo-1614027164847-1b28cfe1df60?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGlvbiUyMGhlYWR8ZW58MHx8MHx8&w=1000&q=80',
+			user: user?.displayName as string,
+			userImage: user?.photoURL as string,
 		});
 
 		formRef?.current?.reset();

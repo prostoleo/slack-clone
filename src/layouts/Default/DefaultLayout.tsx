@@ -6,10 +6,8 @@ import { styled } from 'styled-components';
 import Header from '@/components/Header/Header';
 import Sidebar from '@/components/Sidebar/Sidebar';
 
-// import styles from './DefaultLayout.module.scss';
 import './default.css';
 import { Button } from '@mui/material';
-// import { addNewChannel } from '@/services/firebase';
 import { useChannelsData } from '@/hooks/data/useChannelsData';
 
 type FormValues = {
@@ -100,7 +98,6 @@ const DefaultLayout = () => {
 export default DefaultLayout;
 
 const AppBody = styled.div`
-	/* display: flex; */
 	height: 100%;
 
 	display: grid;
@@ -123,7 +120,6 @@ const Dialog = styled.dialog`
 	padding: 1rem;
 
 	background-color: white;
-	/* background-color: red; */
 
 	&::backdrop {
 		background-color: black;

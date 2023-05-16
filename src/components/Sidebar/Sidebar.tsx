@@ -11,15 +11,12 @@ import {
 	ExpandMore as ExpandMoreIcon,
 	Add as AddIcon,
 } from '@mui/icons-material';
-import type { FC } from 'react';
 import { styled } from 'styled-components';
 import SidebarOption from './SidebarOption';
 import { useChannelsData } from '@/hooks/data/useChannelsData';
 import useAuth from '@/hooks/useAuth';
 
-interface SidebarProps {}
-
-const Sidebar: FC<SidebarProps> = ({}) => {
+const Sidebar = () => {
 	const {
 		getChannelsQuery: { data: channels },
 	} = useChannelsData();
@@ -81,10 +78,8 @@ export default Sidebar;
 const SidebarContainer = styled.aside`
 	--px: 1rem;
 
-	/* width: clamp(200px, 30%, 260px); */
 	width: min(100%, 260px);
 
-	/* margin-top: 3rem; */
 	padding-top: 3rem;
 
 	background-color: var(--slack-color);

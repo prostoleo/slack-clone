@@ -5,18 +5,14 @@ import {
 	HelpOutline as HelpOutlineIcon,
 } from '@mui/icons-material';
 import { Avatar } from '@mui/material';
-import type { FC } from 'react';
 import { styled } from 'styled-components';
 
-interface HeaderProps {}
-
-const Header: FC<HeaderProps> = ({}) => {
+const Header = () => {
 	const { logoutOfApp, user } = useAuth();
 
 	return (
 		<>
 			<HeaderContainer>
-				{/* header left */}
 				<HeaderLeft>
 					<HeaderAvatar
 						//todo add onClick
@@ -25,10 +21,8 @@ const Header: FC<HeaderProps> = ({}) => {
 						<Avatar src={user?.photoURL ?? user?.displayName[0]} />
 					</HeaderAvatar>
 
-					{/* <img src={user?.photoURL} alt="" /> */}
 					<AccessTimeIcon />
 				</HeaderLeft>
-				{/* header search */}
 				<HeaderSearch>
 					<SearchIcon />
 					<input type="search" placeholder="Search our slack" />
