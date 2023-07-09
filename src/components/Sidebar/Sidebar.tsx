@@ -156,4 +156,7 @@ const SidebarOptionsContainer = styled.div`
 const SidebarChannelsContainer = styled.div`
 	display: grid;
 	gap: 0.25rem;
+
+	max-height: 12rem;
+	overflow-y: auto;
 `;
